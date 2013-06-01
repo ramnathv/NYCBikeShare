@@ -1,4 +1,5 @@
 require(RJSONIO)
+require(RColorBrewer)
 require(rCharts)
 options(stringsAsFactors = F)
 
@@ -18,6 +19,7 @@ toGeoJSON = function(list_){
 data_ = fromJSON('http://citibikenyc.com/stations/json', encoding = 'UTF-8')
 bike = data_[[2]]
 bike = bike[-13] # bad encoding
+bike <- Filter(function(station) { station$statusValue == "In Service" }, bike)
 bike2 <- lapply(bike, function(station){
   station$fillColor = if(station$totalDocks == 0){
     '#eeeeee'
